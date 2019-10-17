@@ -49,8 +49,4 @@ export class UserDto {
         example: 'example@mail.com',
     })
     email: string;
-
-    readonly events: string[];
-    readonly role: string;
-    readonly gender: string;
 }

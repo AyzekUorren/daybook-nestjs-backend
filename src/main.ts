@@ -24,8 +24,6 @@ async function bootstrap() {
         .setVersion('1.0')
         .addTag('auth', 'Authorization endpoints')
         .addTag('user', 'User model endpoints')
-        .addTag('twet', 'Twett model endpoints')
-        .addTag('tag', 'Tag model endpoints')
         .setBasePath(process.env.API_PREFIX || 'dev')
         .setSchemes(process.env.HTTPS ? 'https' : 'http')
         .build();
