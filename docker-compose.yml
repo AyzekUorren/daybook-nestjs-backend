@@ -1,0 +1,41 @@
+version: "3.3"
+
+services:
+  mongo:
+    container_name: daybook-mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    restart: always
+    networks:
+      - backend
+
+  daybook:
+    container_name: daybook-backend
+    image: daybook-backend
+    volumes:
+      - .:/usr/src/app
+    build: .
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/daybook-backend --quiet 1
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    links:
+      - mongo
+    environment:
+      NODE_ENV: DEV
+      API_PREFIX: v1
+      MONGO_URL: mongodb://mongo/daybook-backend
+      JWT_SECRET: test
+    restart: always
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: "bridge"
