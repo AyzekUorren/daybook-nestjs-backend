@@ -1,3 +1,4 @@
+import { User } from './../model/user.entity';
 import { Logger, Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
@@ -66,13 +67,13 @@ export class ConfigService {
             username: this.get('DATABASE_USER_NAME'),
             password: this.get('DATABASE_USER_PASSWORD'),
             database: this.get('DATABASE_NAME'),
-            entities: ['src/**/*.entity{.ts,.js}'],
+            entities: [User],
             migrationsTableName: 'migration',
-            migrations: ['src/migration/*.ts'],
+            migrations: ['./src/migration/*.ts'],
             cli: {
-                migrationsDir: 'src/migration',
+                migrationsDir: './src/migration',
             },
-            ssl: this.IsProduction(),
+            ssl: false,
             synchronize: Boolean(this.get('DATABASE_SYNCHHRONIZE')),
             migrationsRun: Boolean(this.get('RUN_MIGRATIONS')),
         };

@@ -10,10 +10,9 @@
   "scripts": {
     "pretypeorm": "(rm ormconfig.json || :) && ts-node -r tsconfig-paths/register src/scripts/updateOrmConfig.ts",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "posttypeorm": "rimraf ormconfig.json",
-    "typeorm:migration:create": "cross-env NODE_ENV=DEV npm run typeorm -- migration:create -n",
-    "typeorm:migration:generate": "cross-env NODE_ENV=DEV npm run typeorm -- migration:generate -n",
-    "typeorm:migration:run": "cross-env NODE_ENV=DEV npm run typeorm -- migration:run",
+    "typeorm:migration:create": "npm run typeorm -- migration:create -n",
+    "typeorm:migration:generate": "npm run typeorm -- migration:generate -n",
+    "typeorm:migration:run": "npm run typeorm -- migration:run",
     "build": "tsc -p tsconfig.build.json",
     "prebuild": "rimraf dist",
     "format": "prettier --write \"src/**/*.ts\"",

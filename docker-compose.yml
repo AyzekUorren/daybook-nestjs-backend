@@ -1,41 +1,58 @@
 version: "3.3"
 
 services:
-  mongo:
-    container_name: daybook-mongo
-    image: mongo
+  db:
+    container_name: daybook-postgres
+    image: "postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -q -d daybook_db -U daybookUser"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
     ports:
-      - "27017:27017"
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: daybookUser
+      POSTGRES_PASSWORD: password1234
+      POSTGRES_DB: daybook_db
+      DB_EXTENSION: "uuid-ossp"
     volumes:
       - ./data:/data/db
     restart: always
     networks:
-      - backend
+      - network
 
   daybook:
     container_name: daybook-backend
-    image: daybook-backend
+    image: node:latest
+    command: npm run-script typeorm:migration:run
     volumes:
       - .:/usr/src/app
     build: .
     ports:
       - "3000:3000"
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/daybook-backend --quiet 1
-      interval: 10s
-      timeout: 10s
-      retries: 5
     links:
-      - mongo
+      - db
     environment:
-      NODE_ENV: DEV
+      NODE_ENV: production
       API_PREFIX: v1
-      MONGO_URL: mongodb://mongo/daybook-backend
+      DATABASE_HOST_NAME: db
+      DATABASE_PORT: 5432
+      DATABASE_USER_NAME: daybookUser
+      DATABASE_USER_PASSWORD: password1234
+      DATABASE_NAME: daybook_db
+      DATABASE_SYNCHHRONIZE: "false"
+      RUN_MIGRATIONS: "false"
+      GENERATE_MIGRATION: "false"
       JWT_SECRET: test
+      HTTPS: "false"
+      SSL_CONNECTION: "false"
     restart: always
     networks:
-      - backend
+      - network
+    depends_on:
+      - db
 
 networks:
-  backend:
+  network:
     driver: "bridge"

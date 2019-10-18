@@ -10,6 +10,6 @@ COPY . /usr/src/app
 
 EXPOSE 3000
 
-RUN npm build
+RUN npm run-script build
 
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run-script", "start" ]
