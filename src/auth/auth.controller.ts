@@ -11,7 +11,6 @@ import {
 } from '@nestjs/swagger';
 import { UserAuthDto } from '../user/dto/user-auth.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { UserResponseDto } from '../user/dto/user-response.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 
 @Controller('auth')
@@ -36,8 +35,8 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     @Get()
     @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
-    @ApiOkResponse({ type: UserResponseDto })
+    @ApiOkResponse({ type: {} })
     async getUser(@Req() request) {
-        return new UserResponseDto(request.user);
+        return {};
     }
 }

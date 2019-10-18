@@ -18,3 +18,8 @@ data
 
 #Coverage Tests
 coverage
+
+#OrmConfig file
+ormconfig.json
+updateOrmConfig.js
+*.js

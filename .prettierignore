@@ -27,3 +27,5 @@ dockerfile
 .wakatime-project
 *.env
 test/jest-e2e.json
+ormconfig.json
+updateOrmConfig.js
