@@ -13,7 +13,7 @@ export abstract class BaseEntity {
     isActive: boolean;
 
     @Column({ type: 'boolean', default: false })
-    IsArchived: boolean;
+    isArchived: boolean;
 
     @CreateDateColumn({
         type: 'timestamptz',

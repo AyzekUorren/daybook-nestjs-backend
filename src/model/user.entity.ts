@@ -4,23 +4,23 @@ import { Column, Entity } from 'typeorm';
 @Entity()
 export class User extends BaseEntity {
     @Column({ type: 'varchar', length: 300 })
-    FirstName: string;
+    firstName: string;
 
     @Column({ type: 'varchar', length: 300, nullable: true })
-    MiddleName: string;
+    middleName: string;
 
     @Column({ type: 'varchar', length: 300 })
-    LastName: string;
+    lastName: string;
 
     @Column({ type: 'varchar', length: 300, unique: true })
-    Email: string;
+    email: string;
 
-    @Column({ type: 'varchar', length: 300, unique: true })
-    Password: string;
+    @Column({ type: 'varchar', length: 300 })
+    password: string;
 
     @Column({ type: 'timestamptz', nullable: true })
-    Age: Date;
+    age: Date;
 
     @Column({ type: 'varchar', length: 300, nullable: true })
-    Icon: string;
+    icon: string;
 }
