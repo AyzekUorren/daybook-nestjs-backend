@@ -15,36 +15,9 @@ services:
       POSTGRES_USER: daybookUser
       POSTGRES_PASSWORD: password1234
       POSTGRES_DB: daybook_db
-    volumes:
-      - ./data:/data/db
     restart: always
     networks:
       - network
-
-  db_migration:
-    container_name: daybook-mirgrations
-    image: node:latest
-    command: npm run-script typeorm:migration:run
-    links:
-      - db
-    environment:
-      NODE_ENV: production
-      API_PREFIX: v1
-      DATABASE_HOST_NAME: db
-      DATABASE_PORT: 5432
-      DATABASE_USER_NAME: daybookUser
-      DATABASE_USER_PASSWORD: password1234
-      DATABASE_NAME: daybook_db
-      DATABASE_SYNCHHRONIZE: "false"
-      RUN_MIGRATIONS: "false"
-      GENERATE_MIGRATION: "false"
-      JWT_SECRET: test
-      HTTPS: "false"
-      SSL_CONNECTION: "false"
-    networks:
-      - network
-    depends_on:
-      - db
 
   daybook:
     container_name: daybook-backend
@@ -63,7 +36,7 @@ services:
       DATABASE_USER_PASSWORD: password1234
       DATABASE_NAME: daybook_db
       DATABASE_SYNCHHRONIZE: "false"
-      RUN_MIGRATIONS: "false"
+      RUN_MIGRATIONS: "true"
       GENERATE_MIGRATION: "false"
       JWT_SECRET: test
       HTTPS: "false"
@@ -73,7 +46,6 @@ services:
       - network
     depends_on:
       - db
-      - db_migration
 
 networks:
   network:

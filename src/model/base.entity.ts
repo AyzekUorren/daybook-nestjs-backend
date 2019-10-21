@@ -27,12 +27,6 @@ export abstract class BaseEntity {
     })
     updatedAt: Date;
 
-    @Column({ type: 'varchar', length: 300 })
-    createdBy: string;
-
-    @Column({ type: 'varchar', length: 300 })
-    updatedBy: string;
-
     @Column({ type: 'varchar', length: 300, nullable: true })
     internalComment: string | null;
 }

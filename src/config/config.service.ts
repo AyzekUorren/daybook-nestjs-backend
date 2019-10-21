@@ -69,9 +69,15 @@ export class ConfigService {
             database: this.get('DATABASE_NAME'),
             entities: [User],
             migrationsTableName: 'migration',
-            migrations: ['./dist/migration/*.js'],
+            migrations: [
+                `./${this.IsProduction() ? 'dist' : 'src'}/migration/${
+                    this.IsProduction() ? '*.js' : '*.ts'
+                }`,
+            ],
             cli: {
-                migrationsDir: './dist/migration',
+                migrationsDir: `./${
+                    this.IsProduction() ? 'dist' : 'src'
+                }/migration`,
             },
             ssl: false,
             synchronize: Boolean(this.get('DATABASE_SYNCHHRONIZE')),
