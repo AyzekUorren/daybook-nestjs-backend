@@ -69,9 +69,9 @@ export class ConfigService {
             database: this.get('DATABASE_NAME'),
             entities: [User],
             migrationsTableName: 'migration',
-            migrations: ['./src/migration/*.ts'],
+            migrations: ['./dist/migration/*.js'],
             cli: {
-                migrationsDir: './src/migration',
+                migrationsDir: './dist/migration',
             },
             ssl: false,
             synchronize: Boolean(this.get('DATABASE_SYNCHHRONIZE')),

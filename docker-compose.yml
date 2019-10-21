@@ -3,7 +3,7 @@ version: "3.3"
 services:
   db:
     container_name: daybook-postgres
-    image: "postgres"
+    image: "postgres:11"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -q -d daybook_db -U daybookUser"]
       interval: 10s
@@ -15,17 +15,41 @@ services:
       POSTGRES_USER: daybookUser
       POSTGRES_PASSWORD: password1234
       POSTGRES_DB: daybook_db
-      DB_EXTENSION: "uuid-ossp"
     volumes:
       - ./data:/data/db
     restart: always
     networks:
       - network
 
+  db_migration:
+    container_name: daybook-mirgrations
+    image: node:latest
+    command: npm run-script typeorm:migration:run
+    links:
+      - db
+    environment:
+      NODE_ENV: production
+      API_PREFIX: v1
+      DATABASE_HOST_NAME: db
+      DATABASE_PORT: 5432
+      DATABASE_USER_NAME: daybookUser
+      DATABASE_USER_PASSWORD: password1234
+      DATABASE_NAME: daybook_db
+      DATABASE_SYNCHHRONIZE: "false"
+      RUN_MIGRATIONS: "false"
+      GENERATE_MIGRATION: "false"
+      JWT_SECRET: test
+      HTTPS: "false"
+      SSL_CONNECTION: "false"
+    networks:
+      - network
+    depends_on:
+      - db
+
   daybook:
     container_name: daybook-backend
     image: node:latest
-    command: npm run-script typeorm:migration:run
+    command: npm run-script start
     volumes:
       - .:/usr/src/app
     build: .
@@ -52,6 +76,7 @@ services:
       - network
     depends_on:
       - db
+      - db_migration
 
 networks:
   network:
