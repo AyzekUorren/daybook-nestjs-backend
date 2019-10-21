@@ -49,9 +49,6 @@ services:
   daybook:
     container_name: daybook-backend
     image: node:latest
-    command: npm run-script start
-    volumes:
-      - .:/usr/src/app
     build: .
     ports:
       - "3000:3000"
