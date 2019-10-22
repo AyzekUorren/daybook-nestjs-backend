@@ -4,48 +4,31 @@ import {
     IsNotEmpty,
     IsEmpty,
     IsDate,
-    IsString,
+    IsOptional,
 } from 'class-validator';
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, InputType } from 'type-graphql';
 
-@ObjectType()
-export class UserDto {
-    @Field(() => ID)
-    @IsString()
-    @ApiModelProperty({
-        required: true,
-        type: String,
-        example: '111',
-    })
-    readonly id: string;
-
-    @Field()
-    @IsNotEmpty()
-    @ApiModelProperty({
-        required: false,
-        type: String,
-        example: 'example.com/image.jpg',
-    })
-    readonly icon: string;
-
-    @Field()
+@InputType()
+export class UserCreateDto {
+    @Field({ nullable: true })
     @IsEmpty()
     createdAt: Date;
 
-    @Field()
+    @Field({ nullable: true })
     @IsEmpty()
     updatedAt: Date;
 
     @Field()
     @IsNotEmpty()
     @ApiModelProperty({
-        required: false,
+        required: true,
         type: String,
         example: 'John',
     })
     readonly firstName: string;
 
-    @Field()
+    @Field({ nullable: true })
+    @IsOptional()
     @ApiModelProperty({
         required: false,
         type: String,
@@ -55,7 +38,7 @@ export class UserDto {
 
     @Field()
     @ApiModelProperty({
-        required: false,
+        required: true,
         type: String,
         example: 'Doe',
     })
@@ -64,7 +47,7 @@ export class UserDto {
     @Field()
     @IsNotEmpty()
     @ApiModelProperty({
-        required: false,
+        required: true,
         type: String,
         example: 'password12345',
     })
@@ -73,13 +56,14 @@ export class UserDto {
     @Field()
     @IsEmail()
     @ApiModelProperty({
-        required: false,
+        required: true,
         type: String,
         example: 'example@mail.com',
     })
     readonly email: string;
 
-    @Field()
+    @Field({ nullable: true })
+    @IsOptional()
     @IsDate()
     @ApiModelProperty({
         required: false,

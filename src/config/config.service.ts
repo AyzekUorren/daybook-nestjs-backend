@@ -1,8 +1,10 @@
-import { User } from './../model/user.entity';
+import { User } from '../model/user.entity';
 import { Logger, Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { GqlModuleOptions } from '@nestjs/graphql';
+import { UserModule } from '../user/user.module';
 
 @Injectable()
 export class ConfigService {
@@ -59,6 +61,14 @@ export class ConfigService {
         return this.get('NODE_ENV') === 'production';
     }
 
+    public GetGraphqlOptions(): GqlModuleOptions {
+        return {
+            autoSchemaFile: 'schema.gpl',
+            debug: !this.IsProduction(),
+            playground: !this.IsProduction(),
+        };
+    }
+
     public GetPostgresTypeOrmConfig(): PostgresConnectionOptions {
         return {
             type: 'postgres',
@@ -82,6 +92,8 @@ export class ConfigService {
             ssl: false,
             synchronize: Boolean(this.get('DATABASE_SYNCHHRONIZE')),
             migrationsRun: Boolean(this.get('RUN_MIGRATIONS')),
+            logging: this.IsProduction(),
+            logger: 'debug',
         };
     }
 

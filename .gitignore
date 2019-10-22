@@ -23,3 +23,6 @@ coverage
 ormconfig.json
 updateOrmConfig.js
 *.js
+
+#Graphql Generated Schema object
+schema.gpl

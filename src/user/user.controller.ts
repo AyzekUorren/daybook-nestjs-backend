@@ -1,4 +1,4 @@
-import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UserService } from './user.service';
 import { Controller, UseGuards, Get, HttpStatus } from '@nestjs/common';
 import {
@@ -15,7 +15,7 @@ import { UserResponseDto } from './dto/user-response.dto';
 @UseGuards(JwtAuthGuard)
 @ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class UserController {
-    constructor(private userSerivce: UserService) {}
+    constructor(private userService: UserService) {}
 
     @Get()
     @ApiResponse({
@@ -24,6 +24,6 @@ export class UserController {
         type: [UserResponseDto],
     })
     async findAll(): Promise<UserResponseDto[]> {
-        return await this.userSerivce.findAll();
+        return await this.userService.findAll();
     }
 }

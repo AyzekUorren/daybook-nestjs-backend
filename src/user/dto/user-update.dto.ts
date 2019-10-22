@@ -1,16 +1,22 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsEmail, IsEmpty, IsOptional } from 'class-validator';
+import { IsDate, IsOptional, IsString } from 'class-validator';
+import { Field, Int, ObjectType } from 'type-graphql';
 
+@ObjectType()
 export class UserUpdateDto {
+    @Field()
+    @IsString()
+    @IsOptional()
     @ApiModelProperty({
         required: false,
         type: String,
-        example: 'example.com/image.jpg',
+        example: 'profile/image.jpg',
     })
     readonly icon: string;
 
-    @IsEmpty() updatedAt: string;
-
+    @Field()
+    @IsString()
+    @IsOptional()
     @ApiModelProperty({
         required: false,
         type: String,
@@ -18,6 +24,9 @@ export class UserUpdateDto {
     })
     readonly firstName: string;
 
+    @Field()
+    @IsString()
+    @IsOptional()
     @ApiModelProperty({
         required: false,
         type: String,
@@ -25,6 +34,9 @@ export class UserUpdateDto {
     })
     readonly middleName: string;
 
+    @Field()
+    @IsString()
+    @IsOptional()
     @ApiModelProperty({
         required: false,
         type: String,
@@ -32,19 +44,23 @@ export class UserUpdateDto {
     })
     readonly lastName: string;
 
-    @ApiModelProperty({
-        required: false,
-        type: String,
-        example: 'password12345',
-    })
-    readonly password: string;
-
+    @Field()
+    @IsString()
     @IsOptional()
-    @IsEmail()
     @ApiModelProperty({
         required: false,
         type: String,
-        example: 'example@mail.com',
+        example: 'test@email.com',
     })
     readonly email: string;
+
+    @Field(() => Int)
+    @IsDate()
+    @IsOptional()
+    @ApiModelProperty({
+        required: false,
+        type: Date,
+        example: '18',
+    })
+    readonly age: Date;
 }
