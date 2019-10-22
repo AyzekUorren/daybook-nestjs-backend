@@ -1,10 +1,21 @@
 <h1 align="center">Daybook-Backend</h1>
 
-## API avilible on stage(online):
+## API available:
+<h4>Local</h3>
+For `DEV` env
+<ul>
+  <li><a href="https:localhost:3000/v1">API</a></li>
+  <li><a href="https:localhost:3000/docs">API docs</a></li>
+  <li><a href="https:localhost:3000/docs/graphql">GraphQL</a></li>
+</ul>
+<details>
+<h4>On stage(online)</h4>
 <ul>
   <li><a href="https://daybook-app-backend-stage.herokuapp.com/v1">API</a></li>
   <li><a href="https://daybook-app-backend-stage.herokuapp.com/docs">API docs</a></li>
+  <li><a href="https://daybook-app-backend-stage.herokuapp.com/docs/graphql">GraphQL</a></li>
 </ul>
+</details>
 
 ## Filename convention
 ### Data transfer objects (Dto)
@@ -36,9 +47,9 @@ Create containers
 ```bash
 $ docker-compose up
 ```
-Dont forget, read additional comands `docker-compose` in the **Running the app -> [Docker section](#docker)**
+Dont forget, read additional commands `docker-compose` in the **Running the app -> [Docker section](#docker)**
 
-## Installation localy
+## Installation locally
 
 *Dont forget set `NODE_ENV` and `API_PREFIX` if you want using this method*
 
@@ -48,16 +59,19 @@ $ npm install
 ## Running the app
 
 ### Local with npm
-
+##### To select env file run with `NODE_ENV=DEV` for `DEV.env` file
 ```bash
-# development
+# build
+$ npm run build
+
+# development start after compiling
 $ npm run start
 
-# watch mode
-$ npm run start:dev
+# developer mode
+$ npm run start:develop
 
 # production mode
-$ npm run start:prod
+$ npm run start
 ```
 
 ### Docker
@@ -69,11 +83,14 @@ $ docker-compose start
 # stop
 $ docker-compose stop
 
+# Start one service, separatly (daybook, db)
+$ docker-compose start <ServiceName>
+
 # remove containers
 $ docker-compose down
 
 # rebuild with new files
-$ docker-compose up --force-recreate --build
+$ docker-compose up --build
 ```
 
 After start app will available on `docker-machine` ip, at `port:3000` by default, you can check ip with:
@@ -83,6 +100,20 @@ $ docker-machine ip default
 If machine not available get ip from container with:
 ```bash
 $ docker ps
+```
+
+### Migrations
+##### To select env file run with `NODE_ENV=DEV` for `DEV.env` file
+###### For production env app uses `.js` migration files
+```bash
+# Run migrations
+$ npm run typeorm:migration:run
+
+# Create migration
+$ npm run typeorm:migration:generate - <MigrationName>
+
+# Create init or empty migration
+$ npm run typeorm:migration:create - <MigrationName>
 ```
 
 ## Test
@@ -133,7 +164,6 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 - Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
 - Website - [https://nestjs.com](https://nestjs.com/)
-- Daybook - [@nestframework](https://daybook.com/nestframework)
 
 ## License
 
