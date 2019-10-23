@@ -1,4 +1,3 @@
-import { UserDto } from '../user/dto/user.dto';
 import { Controller, Post, Body, Req, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
@@ -12,6 +11,7 @@ import {
 import { UserAuthDto } from '../user/dto/user-auth.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthResponseDto } from './dto/auth-response.dto';
+import { UserCreateDto } from '../user/dto/user-create.dto';
 
 @Controller('auth')
 @ApiUseTags('auth')
@@ -27,8 +27,8 @@ export class AuthController {
     @Post('signUp')
     @ApiCreatedResponse({ type: AuthResponseDto })
     @ApiBadRequestResponse({ description: 'Bad request' })
-    async signUp(@Body() userDto: UserDto) {
-        return await this.authService.signUp(userDto);
+    async signUp(@Body() user: UserCreateDto) {
+        return await this.authService.signUp(user);
     }
 
     @ApiBearerAuth()
@@ -37,6 +37,6 @@ export class AuthController {
     @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
     @ApiOkResponse({ type: {} })
     async getUser(@Req() request) {
-        return {};
+        return request.user;
     }
 }

@@ -64,11 +64,11 @@ export class UserCreateDto {
 
     @Field({ nullable: true })
     @IsOptional()
-    @IsDate()
     @ApiModelProperty({
         required: false,
-        type: Date,
-        example: 22,
+        type: String,
+        example: new Date(),
+        format: 'date',
     })
     readonly age: Date;
 }

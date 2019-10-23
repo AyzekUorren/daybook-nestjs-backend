@@ -92,7 +92,7 @@ export class UserResponseDto extends AbstractResponseDto {
     @ApiModelProperty({
         required: false,
         type: Date,
-        example: 18,
+        example: new Date(),
     })
     readonly age: Date;
 

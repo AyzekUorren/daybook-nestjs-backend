@@ -1,8 +1,8 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, InputType, ObjectType } from 'type-graphql';
 import { IsString } from 'class-validator';
 
-@ObjectType()
+@InputType()
 export class UserAuthDto {
     @Field()
     @IsString()

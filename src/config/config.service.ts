@@ -66,6 +66,7 @@ export class ConfigService {
             autoSchemaFile: 'schema.gpl',
             debug: !this.IsProduction(),
             playground: !this.IsProduction(),
+            context: ({ req, res }) => ({ req, res }),
         };
     }
 

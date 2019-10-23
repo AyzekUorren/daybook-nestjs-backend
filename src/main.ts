@@ -39,6 +39,9 @@ async function bootstrap() {
             Logger.log(
                 `\x1b[0;33m[NestApplication]\x1b[0m \x1b[0;32m-> Listening on \x1b[34m http://localhost:${port}/docs\x1b[0m`,
             );
+            Logger.log(
+                `\x1b[0;33m[NestApplication]\x1b[0m \x1b[0;32m-> GraphQL playground on \x1b[34m http://localhost:${port}/graphql\x1b[0m`,
+            );
         }
     });
 }
