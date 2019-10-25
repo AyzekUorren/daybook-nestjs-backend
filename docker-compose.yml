@@ -35,12 +35,12 @@ services:
       DATABASE_USER_NAME: daybookUser
       DATABASE_USER_PASSWORD: password1234
       DATABASE_NAME: daybook_db
-      DATABASE_SYNCHHRONIZE: "false"
-      RUN_MIGRATIONS: "true"
-      GENERATE_MIGRATION: "false"
+      DATABASE_SYNCHHRONIZE: 'false'
+      RUN_MIGRATIONS: 'true'
+      GENERATE_MIGRATION: 'false'
       JWT_SECRET: test
-      HTTPS: "false"
-      SSL_CONNECTION: "false"
+      HTTPS: 'false'
+      SSL_CONNECTION: 'false'
     restart: always
     networks:
       - network

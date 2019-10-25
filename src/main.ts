@@ -25,7 +25,7 @@ async function bootstrap() {
         .addTag('auth', 'Authorization endpoints')
         .addTag('user', 'User model endpoints')
         .setBasePath(process.env.API_PREFIX || 'dev')
-        .setSchemes(process.env.HTTPS ? 'https' : 'http')
+        .setSchemes(process.env.HTTPS === 'true' ? 'https' : 'http')
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('docs', app, document);

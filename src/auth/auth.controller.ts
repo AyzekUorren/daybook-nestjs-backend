@@ -15,6 +15,7 @@ import { UserCreateDto } from '../user/dto/user-create.dto';
 
 @Controller('auth')
 @ApiUseTags('auth')
+@ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 

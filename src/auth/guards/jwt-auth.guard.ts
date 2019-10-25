@@ -24,7 +24,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     private static canLogin(context: ExecutionContext) {
         const headers = this.getHeaders(context);
-        Logger.debug(headers);
         if (headers && !headers.authorization) {
             Logger.error('JwtAuthGuard->init: authorization token not found');
             throw new UnauthorizedException('authorization token not found');

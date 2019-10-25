@@ -4,7 +4,6 @@ import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { GqlModuleOptions } from '@nestjs/graphql';
-import { UserModule } from '../user/user.module';
 
 @Injectable()
 export class ConfigService {
@@ -91,8 +90,10 @@ export class ConfigService {
                 }/migration`,
             },
             ssl: false,
-            synchronize: Boolean(this.get('DATABASE_SYNCHHRONIZE')),
-            migrationsRun: Boolean(this.get('RUN_MIGRATIONS')),
+            synchronize: ConfigService.isTrue(
+                this.get('DATABASE_SYNCHHRONIZE'),
+            ),
+            migrationsRun: ConfigService.isTrue(this.get('RUN_MIGRATIONS')),
             logging: this.IsProduction(),
             logger: 'debug',
         };
@@ -111,5 +112,9 @@ export class ConfigService {
         } else {
             return '';
         }
+    }
+
+    private static isTrue(envValue: string): boolean {
+        return envValue === 'true';
     }
 }

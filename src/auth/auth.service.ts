@@ -50,7 +50,6 @@ export class AuthService {
     }
 
     async validateUser(payload: JwtPayload): Promise<any> {
-        Logger.debug(payload);
         if (!payload.email) {
             Logger.error('auth-> validateUser: Token not valid');
             throw new UnauthorizedException('Token not valid');
