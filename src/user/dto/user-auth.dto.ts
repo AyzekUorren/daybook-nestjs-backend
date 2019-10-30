@@ -9,7 +9,7 @@ export class UserAuthDto {
     @ApiModelProperty({
         required: true,
         type: String,
-        example: 'test@email.com',
+        example: 'example@mail.com',
     })
     readonly email: string;
 
