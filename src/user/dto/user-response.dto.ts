@@ -96,7 +96,7 @@ export class UserResponseDto extends AbstractResponseDto {
 
     constructor(data: any) {
         super();
-        AbstractResponseDto.SetValueIfExists(this, data, [
+        this.SetValueIfExists(data, [
             'icon',
             'id',
             'createdAt',

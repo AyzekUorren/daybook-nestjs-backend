@@ -1,9 +1,5 @@
-export class AbstractResponseDto {
-    protected static SetValueIfExists(
-        responseObject: any,
-        data: any,
-        allowFields: string[],
-    ) {
+export abstract class AbstractResponseDto {
+    protected SetValueIfExists(data: any, allowFields: string[]) {
         const keys = Object.keys(data);
 
         keys.forEach(keyName => {
@@ -12,10 +8,8 @@ export class AbstractResponseDto {
                 ((Array.isArray(data[keyName]) && data[keyName].length > 0) ||
                     (!Array.isArray(data[keyName]) && !!data[keyName]))
             ) {
-                responseObject[keyName] = data[keyName];
+                this[keyName] = data[keyName];
             }
         });
-
-        return responseObject;
     }
 }

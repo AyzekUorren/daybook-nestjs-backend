@@ -8,6 +8,7 @@ import {
     Post,
     OnModuleInit,
     UseGuards,
+    BadRequestException,
 } from '@nestjs/common';
 import {
     ApiUseTags,
@@ -37,20 +38,9 @@ export class UserController implements OnModuleInit {
     constructor(private userService: UserService) {}
 
     onModuleInit() {
-        Logger.log(`The module has been initialized.`);
-
         this.grcpUserService = this.client.getService<IGrcpUserInterface>(
             'UserController',
         );
-
-        try {
-            this.grcpUserService
-                .findById({ userId: '8e33925a-38f7-4fe5-b35a-23027c8a215d' })
-                .subscribe(result => Logger.debug(JSON.stringify(result)));
-        } catch (e) {
-            Logger.error(e);
-            throw e;
-        }
     }
 
     @Get()
@@ -75,7 +65,12 @@ export class UserController implements OnModuleInit {
 
     @Post('grcp:id')
     async findByIdMicroService(@Param('id') userId: string) {
-        Logger.debug(`req -> findById: ${JSON.stringify(userId)}`);
-        return this.grcpUserService.findById({ userId });
+        Logger.debug(`req -> user microService: ${JSON.stringify(userId)}`);
+        try {
+            return this.grcpUserService.findById({ userId });
+        } catch (error) {
+            Logger.error(`user microService -> ${JSON.stringify(error)}`);
+            throw new BadRequestException();
+        }
     }
 }
