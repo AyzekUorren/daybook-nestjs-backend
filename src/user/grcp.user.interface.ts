@@ -5,5 +5,5 @@ export interface IGrcpUserInterface {
 }
 
 interface IUserId {
-    id: string;
+    userId: string;
 }

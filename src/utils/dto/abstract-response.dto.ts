@@ -2,14 +2,19 @@ export class AbstractResponseDto {
     protected static SetValueIfExists(
         responseObject: any,
         data: any,
-        valueName: string,
+        allowFields: string[],
     ) {
-        if (
-            (Array.isArray(data[valueName]) && data[valueName].length > 0) ||
-            (!Array.isArray(data[valueName]) && !!data[valueName])
-        ) {
-            return (responseObject[valueName] = data[valueName]);
-        }
+        const keys = Object.keys(data);
+
+        keys.forEach(keyName => {
+            if (
+                allowFields.includes(keyName) &&
+                ((Array.isArray(data[keyName]) && data[keyName].length > 0) ||
+                    (!Array.isArray(data[keyName]) && !!data[keyName]))
+            ) {
+                responseObject[keyName] = data[keyName];
+            }
+        });
 
         return responseObject;
     }

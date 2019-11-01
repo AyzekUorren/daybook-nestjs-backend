@@ -26,7 +26,9 @@ export class AuthResponseDto extends AbstractResponseDto {
 
     constructor(data: any) {
         super();
-        AbstractResponseDto.SetValueIfExists(this, data, 'expiresIn');
-        AbstractResponseDto.SetValueIfExists(this, data, 'access_token');
+        AbstractResponseDto.SetValueIfExists(this, data, [
+            'expiresIn',
+            'access_token',
+        ]);
     }
 }

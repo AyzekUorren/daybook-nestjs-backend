@@ -1,33 +1,34 @@
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UserService } from './user.service';
 import {
     Controller,
-    UseGuards,
     Get,
     HttpStatus,
     Param,
-    Query,
     Logger,
-    Body,
     Post,
+    OnModuleInit,
+    UseGuards,
 } from '@nestjs/common';
 import {
     ApiUseTags,
-    ApiBearerAuth,
     ApiUnauthorizedResponse,
     ApiResponse,
     ApiBadRequestResponse,
     ApiOkResponse,
+    ApiBearerAuth,
 } from '@nestjs/swagger';
 import { UserResponseDto } from './dto/user-response.dto';
 import { Client, ClientGrpc } from '@nestjs/microservices';
 import { microServiceOptions } from '../grcp.options';
 import { IGrcpUserInterface } from './grcp.user.interface';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('user')
 @ApiUseTags('user')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-export class UserController {
+export class UserController implements OnModuleInit {
     @Client(microServiceOptions)
     private client: ClientGrpc;
 
@@ -38,17 +39,13 @@ export class UserController {
     onModuleInit() {
         Logger.log(`The module has been initialized.`);
 
-        this.grcpUserService = this.client.getClientByServiceName(
+        this.grcpUserService = this.client.getService<IGrcpUserInterface>(
             'UserController',
         );
 
         try {
-            const options = {
-                id: '8e33925a-38f7-4fe5-b35a-23027c8a215d',
-            };
-
             this.grcpUserService
-                .findById(options)
+                .findById({ userId: '8e33925a-38f7-4fe5-b35a-23027c8a215d' })
                 .subscribe(result => Logger.debug(JSON.stringify(result)));
         } catch (e) {
             Logger.error(e);
@@ -76,9 +73,9 @@ export class UserController {
         return await this.userService.findById(userId);
     }
 
-    @Post('grcp')
-    async findByIdMicroService(@Body() userId: string) {
+    @Post('grcp:id')
+    async findByIdMicroService(@Param('id') userId: string) {
         Logger.debug(`req -> findById: ${JSON.stringify(userId)}`);
-        return this.grcpUserService.findById({ id: userId });
+        return this.grcpUserService.findById({ userId });
     }
 }

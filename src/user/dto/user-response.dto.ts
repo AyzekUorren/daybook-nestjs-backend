@@ -1,5 +1,5 @@
 import { AbstractResponseDto } from '../../utils/dto/abstract-response.dto';
-import { IsDate, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 import { Field, ID, ObjectType } from 'type-graphql';
 
@@ -25,26 +25,24 @@ export class UserResponseDto extends AbstractResponseDto {
     readonly icon: string;
 
     @Field({ nullable: true })
-    @IsDate()
     @IsOptional()
     @ApiModelProperty({
         required: false,
-        type: Date,
+        type: String,
         example:
             'Wed Sep 18 2019 12:16:28 GMT+0300 (Eastern European Summer Time)',
     })
-    readonly createdAt: Date;
+    readonly createdAt: string;
 
     @Field({ nullable: true })
-    @IsDate()
     @IsOptional()
     @ApiModelProperty({
         required: false,
-        type: Date,
+        type: String,
         example:
             'Wed Sep 18 2019 12:16:28 GMT+0300 (Eastern European Summer Time)',
     })
-    readonly updatedAt: Date;
+    readonly updatedAt: string;
 
     @Field()
     @IsString()
@@ -87,25 +85,27 @@ export class UserResponseDto extends AbstractResponseDto {
     readonly email: string;
 
     @Field({ nullable: true })
-    @IsDate()
     @IsOptional()
     @ApiModelProperty({
         required: false,
-        type: Date,
-        example: new Date(),
+        type: String,
+        example:
+            'Wed Sep 18 2019 12:16:28 GMT+0300 (Eastern European Summer Time)',
     })
-    readonly age: Date;
+    readonly age: string;
 
     constructor(data: any) {
         super();
-        AbstractResponseDto.SetValueIfExists(this, data, 'icon');
-        AbstractResponseDto.SetValueIfExists(this, data, 'id');
-        AbstractResponseDto.SetValueIfExists(this, data, 'createdAt');
-        AbstractResponseDto.SetValueIfExists(this, data, 'updatedAt');
-        AbstractResponseDto.SetValueIfExists(this, data, 'firstName');
-        AbstractResponseDto.SetValueIfExists(this, data, 'middleName');
-        AbstractResponseDto.SetValueIfExists(this, data, 'lastName');
-        AbstractResponseDto.SetValueIfExists(this, data, 'email');
-        AbstractResponseDto.SetValueIfExists(this, data, 'age');
+        AbstractResponseDto.SetValueIfExists(this, data, [
+            'icon',
+            'id',
+            'createdAt',
+            'updatedAt',
+            'firstName',
+            'middleName',
+            'lastName',
+            'email',
+            'age',
+        ]);
     }
 }
