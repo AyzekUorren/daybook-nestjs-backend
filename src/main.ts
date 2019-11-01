@@ -1,23 +1,17 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, NestApplicationOptions, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { microServiceOptions } from './grcp.options';
 
-async function bootstrap() {
-    let app;
-    const port = +process.env.PORT || 3000;
-    if (process.env.NODE_ENV === 'production') {
-        app = await NestFactory.create(AppModule, {
-            logger: console,
-            bodyParser: true,
-        });
-    } else {
-        app = await NestFactory.create(AppModule, {
-            bodyParser: true,
-        });
+const logMessage = message => {
+    if (process.env.NODE_ENV !== 'production') {
+        Logger.log(
+            `\x1b[0;33m[NestApplication]\x1b[0m \x1b[0;32m-> ${message}`,
+        );
     }
+};
 
+const setupSwaggerDocs = app => {
     const options = new DocumentBuilder()
         .addBearerAuth()
         .setTitle('Daybook backend API')
@@ -30,20 +24,36 @@ async function bootstrap() {
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('docs', app, document);
+};
+
+const getAppOptions = () => {
+    const nestApplicationOptions: NestApplicationOptions = { bodyParser: true };
+
+    if (process.env.NODE_ENV === 'production') {
+        nestApplicationOptions.logger = console;
+    }
+
+    return nestApplicationOptions;
+};
+
+async function bootstrap() {
+    const port = +process.env.PORT || 3000;
+
+    const app = await NestFactory.create(AppModule, getAppOptions());
+
+    setupSwaggerDocs(app);
 
     app.setGlobalPrefix(process.env.API_PREFIX || 'dev');
     app.useGlobalPipes(new ValidationPipe());
     app.enableCors();
 
     await app.listen(port, () => {
-        if (process.env.NODE_ENV !== 'production') {
-            Logger.log(
-                `\x1b[0;33m[NestApplication]\x1b[0m \x1b[0;32m-> Listening on \x1b[34m http://localhost:${port}/docs\x1b[0m`,
-            );
-            Logger.log(
-                `\x1b[0;33m[NestApplication]\x1b[0m \x1b[0;32m-> GraphQL playground on \x1b[34m http://localhost:${port}/graphql\x1b[0m`,
-            );
-        }
+        logMessage(
+            `Listening on \x1b[34m http://localhost:${port}/docs\x1b[0m`,
+        );
+        logMessage(
+            `GraphQL playground on \x1b[34m http://localhost:${port}/graphql\x1b[0m`,
+        );
     });
 }
 bootstrap();
