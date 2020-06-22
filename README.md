@@ -1,6 +1,6 @@
 <h1 align="center">Daybook-Backend</h1>
 
-## API avilible on stage(online):
+## API available on stage(online):
 <ul>
   <li><a href="https://daybook-app-backend-stage.herokuapp.com/v1">API</a></li>
   <li><a href="https://daybook-app-backend-stage.herokuapp.com/docs">API docs</a></li>
